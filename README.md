@@ -1,4 +1,4 @@
-# Public Rest API for Kryptono Exchange (June 7, 2018)
+# Public Rest API for Kryptono Exchange (2018-06-09)
 # General API Information
 * The base endpoint is: **https://kryptono.exchange/k/api/**
 * All endpoints return either a JSON object or array.
@@ -12,7 +12,7 @@
 * Any endpoint can retun an ERROR; the error payload is as follows:
 ```javascript
 {
-  "error": -1212,
+  "error": "400xxx",
   "error_description": "Invalid param."
 }
 ```
@@ -79,14 +79,14 @@ NONE
 ```javascript
 {
     "account_id": "5377f2e2-4b0e-4b15-be17-28092ae0c346",
-    "email": "ahihi2@mailinator.com",
+    "email": "email@email.com",
     "phone": null,
     "enable_google_2fa": true,
     "status": "offline",
     "create_at": 1524567654822,
-    "nick_name": "Ahihi 2",
-    "chat_id": "29371524567654821@kryptono.exchange",
-    "chat_password": "VMyBENGYrp",
+    "nick_name": "Nickname 1",
+    "chat_id": "xxxx@kryptono.exchange",
+    "chat_password": "xxxxxxxxxxx",
     "banks": [],
     "country": "US",
     "language": "en",
@@ -103,14 +103,14 @@ NONE
             "timeSecond": 1528199468
         },
         "account_id": "5377f2e2-4b0e-4b15-be17-28092ae0c346",
-        "nick_name": "Ahihi 2",
-        "email": "ahihi2@mailinator.com",
-        "ip_address": "14.161.20.103",
+        "nick_name": "Nickname 1",
+        "email": "email@email.com",
+        "ip_address": "xxx.xxx.xxx.xxx",
         "login_at": 1528199468073,
         "os_name": "Mac OS X",
         "browser_name": "Chrome",
-        "country": "Vietnam",
-        "city": "Ho Chi Minh City",
+        "country": "Country",
+        "city": "City",
         "sentEmail": true
     },
     "commission_status": true,
@@ -118,11 +118,11 @@ NONE
     "kyc_reject_infos": [],
     "allow_order": 1,
     "disable_withdraw": 0,
-    "referral_id": "XWSMQ0",
+    "referral_id": "XXXXXX",
     "favorite_pairs": [
         "KNOW_ETH"
     ],
-    "chat_server": "wss://chat.kryptono.exchange:5280/ws",
+    "chat_server": "wss://xxx.kryptono.exchange:xxxx/ws",
     "exchange_fee": {
         "standard_fee": "0.1",
         "know_fee": "0.05"
@@ -150,14 +150,15 @@ NONE
 ]
 ```
 
-### Get Market Price (Updated every 15 seconds)
+### Get Market Price (Updated every 1 second)
 ```
 GET /v1/market_price?symbol=KNOW_BTC
 ```
 **Request Params:**
+
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-symbol | STRING | NO | Default is all of symbols |
+symbol | STRING | NO | Default is all of symbols
 
 **Response:**
 ```javascript
