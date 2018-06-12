@@ -1,6 +1,6 @@
-# Public Rest API for Kryptono Exchange (2018-06-09)
+# Public Rest API for Kryptono Exchange (June 12, 2018)
 # General API Information
-* The base endpoint is: **https://kryptono.exchange/k/api/**
+* The base endpoint is: **https://p.kryptono.exchange/k/api/**
 * All endpoints return either a JSON object or array.
 * Data is returned in **descending** order. Newest first, oldest last.
 * All time and timestamp related fields are in milliseconds.
@@ -150,7 +150,7 @@ NONE
 ]
 ```
 
-### Get Market Price (Updated every 1 second)
+### Get Market Price (Updated every 5 seconds)
 ```
 GET /v1/market_price?symbol=KNOW_BTC
 ```
