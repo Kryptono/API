@@ -1,4 +1,4 @@
-# Public Rest API for Kryptono Exchange (June 12, 2018)
+# Public Rest API for Kryptono Exchange (June 18, 2018)
 # General API Information
 * The base endpoint is: **https://p.kryptono.exchange/k/api/**
 * All endpoints return either a JSON object or array.
@@ -36,7 +36,7 @@
 **Order types:**
 
 * LIMIT
-* MARKET (currently not supported)
+* MARKET
 * STOP_LOSS
 * TAKE_PROFIT
 
