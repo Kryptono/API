@@ -1,4 +1,10 @@
 # Public Rest API for Kryptono Exchange (June 18, 2018)
+## Update History
+### June 18, 2018
+* Support Market type for create order
+* Provide api/websocket for market information, include order books and transaction history: [Get Market Information](#get-market-information)
+
+
 # General API Information
 * The base endpoint is: **https://p.kryptono.exchange/k/api/**
 * All endpoints return either a JSON object or array.
@@ -203,6 +209,173 @@ NONE
     ]
 }
 ```
+
+### Get Market Information
+#### Transaction History
+##### API
+```
+GET https://engines.kryptono.exchange/api/v1/ht?symbol=<symbol>
+```
+
+**Request Param:**
+
+Name | Type | Mandatory | Description
+------------ | ------------ | ------------ | ------------
+symbol | STRING | YES | |
+
+**Response:**
+```
+GET https://engines.kryptono.exchange/api/v1/ht?symbol=KNOW_BTC
+```
+```
+{
+    "symbol":"KNOW_BTC",
+    "limit":100,
+    "history":[
+        {
+            "id":139638,
+            "price":"0.00001723",
+            "qty":"81.00000000",
+            "isBuyerMaker":false,
+            "time":1529262196270
+        }
+    ],
+    "time":1529298130192
+}
+```
+
+##### Websocket
+```
+GET wss://engines.kryptono.exchange/ws/v1/ht/<symbol>
+```
+
+**Request Param:**
+
+Name | Type | Mandatory | Description
+------------ | ------------ | ------------ | ------------
+symbol | STRING | YES | |
+
+**Response:**
+```
+GET wss://engines.kryptono.exchange/ws/v1/ht/KNOW_USDT
+```
+```
+{
+    "c" : 1529298630675,
+    "e" : "history_trade",
+    "k" : 146851,
+    "m" : false,
+    "p" : "0.10400000",
+    "q" : "107.00000000",
+    "s" : "KNOW_USDT",
+    "t" : 1529298630370
+}
+```
+
+**Response Description:**
+
+Name | Type | Description
+------------ | ------------ | ------------
+c | LONG | Event time |
+e | STRING | Event type |
+k | STRING | ID |
+m | BOOLEAN | Is order made by buyer |
+p | STRING | Price |
+q | STRING | Quantity |
+s | STRING | Symbol |
+t | STRING | Trade time |
+
+#### Order Book Data
+##### API
+```
+GET https://engines.kryptono.exchange/api/v1/dp?symbol=<symbol>
+```
+
+**Request Param:**
+
+Name | Type | Mandatory | Description
+------------ | ------------ | ------------ | ------------
+symbol | STRING | YES | |
+
+**Response:**
+```
+GET https://engines.kryptono.exchange/api/v1/dp?symbol=KNOW_BTC
+```
+```
+{
+    "symbol" : "KNOW_BTC",
+    "limit" : 100,
+    "asks" : [
+        [
+            "0.00001850",   // price
+            "69.00000000"   // size
+        ]
+    ],
+    "bids" : [
+        [
+            "0.00001651",       // price
+            "11186.00000000"    // size
+        ]
+    ]
+    "time" : 1529298130192
+}
+```
+
+**Response Description:**
+
+Name | Type | Description
+------------ | ------------ | ------------
+symbol | STRING | Symbol |
+limit | INTEGER | Limit length of list |
+asks | Array | List of Sell Order |
+bids | Array | List of Buy Order |
+time | LONG | Time |
+
+##### Websocket
+```
+GET wss://engines.kryptono.exchange/ws/v1/dp/<symbol>
+```
+
+**Request Param:**
+
+Name | Type | Mandatory | Description
+------------ | ------------ | ------------ | ------------
+symbol | STRING | YES | |
+
+**Response:**
+```
+GET wss://engines.kryptono.exchange/ws/v1/dp/KNOW_USDT
+```
+```
+{
+    "a" : [
+        [
+            "0.10400000",   // price
+            "245.00000000"    // size
+        ]
+    ],
+    "b" : [
+        [
+            "0.10400000", 
+            "245.00000000"
+        ]
+    ]
+    "e" : "depthUpdate"
+    "s" : "KNOW_USDT"
+    "t" : 1529299716639
+}
+```
+
+**Response Description:**
+
+Name | Type | Description
+------------ | ------------ | ------------
+s | STRING | Symbol |
+e | STRING | Event type |
+a | Array | List of Sell Order |
+b | Array | List of Buy Order |
+t | LONG | Time |
+
 
 ### Create order
 ```
