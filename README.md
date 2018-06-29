@@ -1,5 +1,9 @@
-# Public Rest API for Kryptono Exchange (June 18, 2018)
+# Public Rest API for Kryptono Exchange (June 29, 2018)
 ## Update History
+### June 21, 2018
+* Update Get Order History apis: [Get Open Orders](#get-open-orders) and [Get Order History](#get-order-history)
+* Add Get Order Detail api [Get Order Detail](#get-order-detail)
+
 ### June 18, 2018
 * Support Market type for create order
 * Provide api/websocket for market information, include order books and transaction history: [Get Market Information](#get-market-information)
@@ -465,44 +469,74 @@ DELETE /v1/order/cancel_all
 200 OK
 ```
 
-### Get Open Order List
+### Get Order Detail
 ```
-POST /v1/order/list/open_order
+POST /v1/order/list/details
 ```
+
 **Request Body Description:**
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-limit | INTEGER | NO | Default is NO LIMIT |
-page | INTEGER | NO | Default is 0 |
-from_date | LONG | NO | |
-to_date | LONG | NO | |
-left | STRING | NO | |
-right | STRING | NO | |
-order_side | STRING | NO | |
+order_id | STRING | YES | |
 
 **Request Body:**
 ```javascript
 {
-  "limit" : 10,
-  "page" : 0,
-  "from_date" : 1528277973947,
-  "to_date" : 1528277973947,
-  "left" : "KNOW",
-  "right" : "ETH",
-  "order_side" : "BUY"
+  "order_id" : "0e3f05e0-912c-4957-9322-d1a34ef6e312"
 }
 ```
 
 **Response:**
 ```javascript
 {
-    "total": 10,  // total of pages
+    "order_id": "0e3f05e0-912c-4957-9322-d1a34ef6e312",
+    "account_id": "14ce3690-4e86-4f69-8412-b9fd88535f8z",
+    "order_symbol": "KNOW_BTC",
+    "order_side": "SELL",
+    "status": "open",
+    "createTime": 1429514463266,
+    "type": "limit",
+    "order_price": "0.00001234",
+    "order_size": "1000",
+    "executed": "0",
+    "stop_price": "0.00000000",
+    "avg": "0.00001234",
+    "total": "0.1234 BTC"
+}
+```
+
+### Get Open Orders
+```
+POST /v1/order/list/open_order
+```
+
+**Request Body Description:**
+
+Name | Type | Mandatory | Description
+------------ | ------------ | ------------ | ------------
+limit | INTEGER | NO | Default and Maximum are 20 |
+page | INTEGER | NO | Default and first page are 0 |
+symbol | STRING | YES | |
+
+**Request Body:**
+```javascript
+{
+  "limit" : 10,
+  "page" : 0,
+  "symbol" : "KNOW_BTC"
+}
+```
+
+**Response:**
+```javascript
+{
+    "total": 5,  // total number of pages
     "list": [
         {
             "order_id": "02140bef-0c98-4997-9412-9e7ca6f1cc0e",
             "account_id": "bzbf4991-ad06-44e5-908c-691fdd55da14",
-            "order_symbol": "KNOW_ETH",
+            "order_symbol": "KNOW_BTC",
             "order_side": "BUY",
             "status": "open",
             "createTime": 1528277973947,
@@ -512,50 +546,50 @@ order_side | STRING | NO | |
             "executed": "0",
             "stop_price": "0.00000000",
             "avg": "0.00001230",
-            "total": "0.09565710 ETH"
+            "total": "0.09565710 BTC"
         }
     ]
 }
 ```
 
+**Response Description:**
+
+Name | Type | Description
+------------ | ------------ | ------------ 
+total | INTEGER | Number of pages, only returned in the first page request, other page request returned -1 |
+
+
 ### Get Order History
 ```
 POST /v1/order/list/order_history
 ```
+
 **Request Body Description:**
 
 Name | Type | Mandatory | Description
 ------------ | ------------ | ------------ | ------------
-limit | INTEGER | NO | Default is NO LIMIT |
-page | INTEGER | NO | Default is 0 |
-from_date | LONG | NO | |
-to_date | LONG | NO | |
-left | STRING | NO | |
-right | STRING | NO | |
-order_side | STRING | NO | |
+limit | INTEGER | NO | Default and Maximum are 20 |
+page | INTEGER | NO | Default and first page are 0 |
+symbol | STRING | YES | |
 
 **Request Body:**
 ```javascript
 {
   "limit" : 10,
   "page" : 0,
-  "from_date" : 1528277973947,
-  "to_date" : 1528277973947,
-  "left" : "KNOW",
-  "right" : "ETH",
-  "order_side" : "BUY"
+  "symbol" : "KNOW_BTC"
 }
 ```
 
 **Response:**
 ```javascript
 {
-    "total": 10,  // total of pages
+    "total": 10,  // total number of pages
     "list": [
         {
             "order_id": "02140bef-0c98-4997-9412-9e7ca6f1cc0e",
             "account_id": "bzbf4991-ad06-44e5-908c-691fdd55da14",
-            "order_symbol": "KNOW_ETH",
+            "order_symbol": "KNOW_BTC",
             "order_side": "BUY",
             "status": "filled",
             "createTime": 1528277973947,
@@ -565,16 +599,24 @@ order_side | STRING | NO | |
             "executed": "7777",
             "stop_price": "0.00000000",
             "avg": "0.00001230",
-            "total": "0.09565710 ETH"
+            "total": "0.09565710 BTC"
         }
     ]
 }
 ```
 
+**Response Description:**
+
+Name | Type | Description
+------------ | ------------ | ------------ 
+total | INTEGER | Number of pages, only returned in the first page request, other page request returned -1 |
+
+
 ### Get Trade History
 ```
 POST /v1/order/list/trade_history
 ```
+
 **Request Body Description:**
 
 Name | Type | Mandatory | Description
@@ -637,6 +679,7 @@ type | STRING | NO | |
 ```
 POST /v1/order/order_trade_detail
 ```
+
 **Request Body Description:**
 
 Name | Type | Mandatory | Description
